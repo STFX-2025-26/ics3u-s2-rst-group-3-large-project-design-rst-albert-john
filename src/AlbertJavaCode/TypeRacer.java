@@ -86,14 +86,7 @@ public class TypeRacer {
 				int random = (int)(Math.random()* (n+1));
 				textField_1.setText(randomText[random]);
 				userText = textField.getText();
-				for (int i= 0; i<randomText[random].length();i++) {
-					attempted++;
-					
-					if (randomText[random].charAt(i)== userText.charAt(i) ) {
-						correct++;
-						
-					}
-				}
+				
 				
 				
 				//Start button code end
