@@ -1,5 +1,10 @@
 package AlbertJavaCode;
 
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,6 +22,11 @@ public class TypeRacer {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private String currentSentence;
+	private long startTime;
+	private boolean gameActive;
+	String [] randomText = {"This is a  text, type as fast as you can.","Hawian pizza is delicious.","You have so much aura.","You are really slow at typing aren't you","You type like a cheetah bro. Keep it up."};
+	String userText = "";
 
 	/**
 	 * Launch the application.
@@ -56,6 +66,7 @@ public class TypeRacer {
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setBounds(10, 79, 244, 53);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
@@ -68,6 +79,24 @@ public class TypeRacer {
 		JButton btnNewButton = new JButton("Start");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Start button code
+				int n = 4;
+				int correct = 0;
+				int attempted = 0;
+				int random = (int)(Math.random()* (n+1));
+				textField_1.setText(randomText[random]);
+				userText = textField.getText();
+				for (int i= 0; i<randomText[random].length();i++) {
+					attempted++;
+					
+					if (randomText[random].charAt(i)== userText.charAt(i) ) {
+						correct++;
+						
+					}
+				}
+				
+				
+				//Start button code end
 			}
 		});
 		btnNewButton.setBounds(300, 55, 89, 23);
