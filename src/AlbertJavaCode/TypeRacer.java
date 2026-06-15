@@ -18,19 +18,23 @@ import java.awt.event.ActionEvent;
 public class TypeRacer {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField inputTextArea;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private String currentSentence;
 	private long startTime;
 	private boolean gameActive;
-	String [] randomText = {"This is a  text, type as fast as you can.","Hawian pizza is delicious.","You have so much aura.","You are really slow at typing aren't you","You type like a cheetah bro. Keep it up."};
+	 private final String[] randomText = {"This is a  text, type as fast as you can.","Hawian pizza is delicious.","You have so much aura.","You are really slow at typing aren't you","You type like a cheetah bro. Keep it up."};
 	String userText = "";
 
 	/**
 	 * Launch the application.
 	 */
+	
+	// Typing listener
+	  
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -60,10 +64,10 @@ public class TypeRacer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 161, 244, 89);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		inputTextArea = new JTextField();
+		inputTextArea.setBounds(10, 161, 244, 89);
+		frame.getContentPane().add(inputTextArea);
+		inputTextArea.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
@@ -80,18 +84,93 @@ public class TypeRacer {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Start button code
-				int n = 4;
-				int correct = 0;
-				int attempted = 0;
-				int random = (int)(Math.random()* (n+1));
-				textField_1.setText(randomText[random]);
-				userText = textField.getText();
-				
+				 int randomIndex = (int) (Math.random() * randomText.length);
+			     currentSentence = randomText[randomIndex];
+			       
+			        // Reset text display with default black text style
+			     textField_1.setText(currentSentence);
+
+			     inputTextArea.setText("");
+			     inputTextArea.setEnabled(true);
+			     inputTextArea.requestFocus();
+			     textField_2.setText("WPM: 0 | Accuracy: 100%");
+			       
+			     startTime = 0; // Reset timer
+			     gameActive = true;
+			       
+			        // Hide the button during active gameplay
+			     btnNewButton.setVisible(false);
 				
 				
 				//Start button code end
 			}
+			
 		});
+		inputTextArea.addKeyListener(new KeyAdapter() {
+	          @Override
+	          public void keyPressed(KeyEvent e) {
+	              if (!gameActive) return;
+
+	              // Start timer on the first keystroke
+	              if (startTime == 0 && inputTextArea.getText().isEmpty()) {
+	                  startTime = System.currentTimeMillis();
+	              }
+	          }
+
+	          @Override
+	          public void keyReleased(KeyEvent e) {
+	              if (!gameActive) return;
+	              checkProgress();
+	          }
+
+			  private void checkProgress() {
+				// TODO Auto-generated method stub
+				  int n = 4;
+					int correct = 0;
+					int incorrect = 0;
+					String chosenText = textField_1.getText();
+					userText = inputTextArea.getText();
+					int length = chosenText.length();
+					int usertextLength = userText.length();
+					for(int i = 0; i < length; i++) {
+						
+						if(i <usertextLength) {
+							if (userText.charAt(i) == chosenText.charAt(i)) {
+								correct++;
+							}
+							else
+								incorrect ++;
+						}
+						
+					}
+					// live accuracy logic
+					int totalAttempted = correct +incorrect;
+					int accuracy = (correct/ totalAttempted)*100;
+					
+					// live WPM logic
+					int wpm = 0;
+					if (startTime > 0) {
+				           long elapsedTime = System.currentTimeMillis() - startTime;
+				           double minutes = elapsedTime / 60000.0;
+				           if (minutes > 0) {
+				               wpm = (int) ((usertextLength / 5.0) / minutes);
+				           }
+				    }
+
+				    textField_3.setText("WPM: " + wpm + " | Accuracy: " + accuracy + "%");
+				    if (userText.equals(randomText)) {
+				    	 gameActive = false;
+				         inputTextArea.setEnabled(false);
+				           
+				         // Re-display the button as a "Restart" trigger on the summary screen
+				         btnNewButton.setText("Restart");
+				         btnNewButton.setVisible(true);
+				           
+				         JOptionPane.showMessageDialog(null, "Finished!\nFinal Speed: " + wpm + " WPM\nFinal Accuracy: " + accuracy + "%");
+				    }
+			}
+	      });
+		
 		btnNewButton.setBounds(300, 55, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 		
@@ -125,4 +204,5 @@ public class TypeRacer {
 		frame.getContentPane().add(textField_3);
 		textField_3.setColumns(10);
 	}
+	
 }
