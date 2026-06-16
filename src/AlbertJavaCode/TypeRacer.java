@@ -143,7 +143,7 @@ public class TypeRacer {
 						}
 						
 					}
-					// live accuracy logic
+					//  live accuracy logic
 					int totalAttempted = correct +incorrect;
 					int accuracy = (correct/ totalAttempted)*100;
 					
