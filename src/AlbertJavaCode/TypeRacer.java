@@ -147,7 +147,7 @@ public class TypeRacer {
 					int totalAttempted = correct +incorrect;
 					int accuracy = (correct/ totalAttempted)*100;
 					
-					// live WPM logic
+					//  live WPM logic
 					int wpm = 0;
 					if (startTime > 0) {
 				           long elapsedTime = System.currentTimeMillis() - startTime;
