@@ -145,7 +145,8 @@ public class TypeRacer {
 					}
 					// live accuracy logic
 					int totalAttempted = correct +incorrect;
-					int accuracy = (correct/ totalAttempted)*100;
+					int accuracy =  (totalAttempted > 0) ? (correct * 100) / totalAttempted : 100;
+
 					
 					//  live WPM logic
 					int wpm = 0;
